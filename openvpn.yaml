@@ -1,7 +1,5 @@
 init_config:
-  metric_prefix: openvpn
-  sacli_path: /usr/local/openvpn_as/scripts/sacli
 
 instances:
-    [{}]
-
+  - metric_prefix: openvpn
+    sacli_path: /usr/local/openvpn_as/scripts/sacli
