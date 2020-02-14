@@ -16,7 +16,7 @@ class OpenVPN(AgentCheck):
 
     def get_license_usage(self):
         sacli_path = self.init_config.get('sacli_path', '/usr/local/openvpn_as/scripts/sacli')
-        lic_usage = ast.literal_eval(check_output(["sudo", sacli_path, "LicUsage"]))
+        lic_usage = ast.literal_eval(check_output(["sudo", sacli_path, "LicUsage"]).decode('utf-8'))
         return {
                     'used': lic_usage[0],
                     'total': lic_usage[1],
