@@ -1,6 +1,24 @@
-cp openvpn.py /etc/dd-agent/checks.d/openvpn.py
-cp openvpn.yaml /etc/dd-agent/conf.d/openvpn.yaml
+#!/bin/sh
 
-echo 'dd-agent ALL=NOPASSWD: /usr/local/openvpn_as/scripts/sacli' | sudo EDITOR='tee -a' visudo
+if [ -d /etc/dd-agent ]; then
+  DIR="/etc/dd-agent"
+elif [ -d /etc/datadog-agent ]; then
+  DIR="/etc/datadog-agent"
+else
+  echo "Datadog not found."
+  exit 1
+fi
 
-/etc/init.d/datadog-agent restart
+
+if [ -e /usr/local/openvpn_as/scripts/sacli ]; then
+  cp openvpn.py $DIR/checks.d/openvpn.py
+	cp openvpn.yaml $DIR/conf.d/openvpn.yaml
+
+	echo 'dd-agent ALL=NOPASSWD: /usr/local/openvpn_as/scripts/sacli' | sudo EDITOR='tee -a' visudo
+
+	/etc/init.d/datadog-agent restart
+
+else
+  echo "openvpn_as not found."
+  exit 1
+fi
